@@ -1,0 +1,238 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#244735">
+  <meta name="description" content="HomeEase — your beautiful, simple home management and daily chores planner.">
+  <title>HomeEase | A Better Way to Manage Home</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar" id="sidebar">
+      <a class="brand" href="#dashboard">
+        <span class="brand-icon">⌂</span>
+        <span>home<span class="brand-light">ease</span>
+          <small>YOUR HOME, IN HARMONY</small>
+        </span>
+      </a>
+
+      <div class="side-label">WORKSPACE</div>
+      <nav class="nav-menu">
+        <a href="#dashboard" class="nav-link active" data-page="dashboard">
+          <span>▦</span> Dashboard
+        </a>
+        <a href="#chores" class="nav-link" data-page="chores">
+          <span>☑</span> House chores
+        </a>
+        <a href="#planner" class="nav-link" data-page="planner">
+          <span>▦</span> Weekly planner
+        </a>
+        <a href="#shopping" class="nav-link" data-page="shopping">
+          <span>🛒</span> Shopping list
+        </a>
+      </nav>
+
+      <div class="side-label">PERSONAL</div>
+      <nav class="nav-menu">
+        <a href="#settings" class="nav-link" data-page="settings">
+          <span>⚙</span> Settings
+        </a>
+      </nav>
+
+      <div class="sidebar-bottom">
+        <div class="help-card">
+          <div class="help-icon">✦</div>
+          <h3>A calmer home starts here.</h3>
+          <p>Little tasks, done consistently, make a beautiful difference.</p>
+          <button id="addFromSidebar" class="text-button">Add a task ↗</button>
+        </div>
+        <div class="profile">
+          <div class="avatar">H</div>
+          <div>
+            <strong>Home Manager</strong>
+            <small>Your happy place</small>
+          </div>
+          <span class="profile-dot"></span>
+        </div>
+      </div>
+    </aside>
+
+    <main class="main-content">
+      <header class="topbar">
+        <button class="icon-button mobile-menu" id="menuToggle" aria-label="Open navigation">☰</button>
+        <div class="breadcrumb">Home <span>/</span> <strong id="pageName">Dashboard</strong></div>
+        <div class="top-actions">
+          <span class="today-label" id="todayLabel"></span>
+          <button class="icon-button" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode">☾</button>
+          <button class="primary-button compact" id="quickAdd">＋ New task</button>
+        </div>
+      </header>
+
+      <div class="page-container">
+        <section class="page active-page" id="page-dashboard">
+          <div class="welcome-row">
+            <div>
+              <div class="eyebrow"><span class="eyebrow-line"></span> YOUR PERSONAL HOME ASSISTANT</div>
+              <h1>A little care goes<br> a <em>long way.</em></h1>
+              <p class="intro">Create a home that feels as good as it looks.<br>Let's make today a little more organised.</p>
+              <button class="primary-button" id="startChores">View today's chores <span>→</span></button>
+            </div>
+            <div class="hero-image">
+              <div class="hero-overlay">
+                <span class="hero-tag">THE ART OF LIVING WELL</span>
+                <p>A beautiful home<br>is built one day at a time.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="section-heading">
+            <div>
+              <h2>Your home at a glance</h2>
+              <p>Small steps make a big difference.</p>
+            </div>
+            <span class="date-chip" id="dateChip">Today</span>
+          </div>
+
+          <div class="stats-grid">
+            <article class="stat-card">
+              <div class="stat-top"><span class="stat-icon green">✓</span><span class="stat-caption">TODAY</span></div>
+              <div class="stat-value" id="statDone">0</div>
+              <h3>Tasks completed</h3>
+              <p>Keep up the great work.</p>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span class="stat-icon amber">◷</span><span class="stat-caption">IN PROGRESS</span></div>
+              <div class="stat-value" id="statPending">0</div>
+              <h3>Tasks remaining</h3>
+              <p>One thing at a time.</p>
+            </article>
+            <article class="stat-card">
+              <div class="stat-top"><span class="stat-icon blue">✦</span><span class="stat-caption">YOUR ROUTINE</span></div>
+              <div class="stat-value" id="statTotal">0</div>
+              <h3>Total home tasks</h3>
+              <p>Your home, your rhythm.</p>
+            </article>
+          </div>
+
+          <div class="dashboard-grid">
+            <section class="panel chore-panel">
+              <div class="panel-heading">
+                <div>
+                  <h2>Today's priorities</h2>
+                  <p>Your daily checklist, made simple.</p>
+                </div>
+                <button class="subtle-button" data-go="chores">View all →</button>
+              </div>
+              <div id="dashboardTaskList" class="task-list"></div>
+              <div class="empty-state hidden" id="dashboardEmpty">
+                <span>✧</span><h3>Fresh start!</h3><p>Add your first home chore to begin.</p>
+                <button class="primary-button" id="emptyAdd">＋ Add a chore</button>
+              </div>
+              <div class="progress-footer">
+                <div class="progress-copy"><span>Daily progress</span><strong id="progressText">0%</strong></div>
+                <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+              </div>
+            </section>
+
+            <section class="panel routine-panel">
+              <div class="panel-heading">
+                <div><h2>Home routines</h2><p>Keep every corner in order.</p></div>
+              </div>
+              <button class="routine-item" data-category="Cleaning">
+                <span class="routine-icon mint">✧</span><span><strong>Cleaning</strong><small>Sweep, mop and dust</small></span><span class="routine-arrow">↗</span>
+              </button>
+              <button class="routine-item" data-category="Kitchen">
+                <span class="routine-icon peach">♨</span><span><strong>Kitchen care</strong><small>Dishes and countertops</small></span><span class="routine-arrow">↗</span>
+              </button>
+              <button class="routine-item" data-category="Laundry">
+                <span class="routine-icon lavender">◌</span><span><strong>Laundry</strong><small>Wash, dry and fold</small></span><span class="routine-arrow">↗</span>
+              </button>
+              <button class="routine-item" data-category="Organisation">
+                <span class="routine-icon sand">⌂</span><span><strong>Organisation</strong><small>Tidy and put things away</small></span><span class="routine-arrow">↗</span>
+              </button>
+              <div class="quote-card"><span>“</span><p>There is beauty in the everyday things we do with care.</p><small>THE HOME EASE PHILOSOPHY</small></div>
+            </section>
+          </div>
+        </section>
+
+        <section class="page" id="page-chores">
+          <div class="page-title-row">
+            <div><div class="eyebrow">A FRESH, TIDY SPACE</div><h1>Your house chores</h1><p class="intro">Every little task brings more calm into your home.</p></div>
+            <button class="primary-button" id="choresAdd">＋ Add a chore</button>
+          </div>
+          <div class="filter-row">
+            <div class="filter-buttons">
+              <button class="filter-btn active" data-filter="all">All tasks</button>
+              <button class="filter-btn" data-filter="pending">To do</button>
+              <button class="filter-btn" data-filter="done">Completed</button>
+            </div>
+            <select id="categoryFilter" aria-label="Filter by category">
+              <option value="all">All categories</option>
+              <option>Cleaning</option><option>Kitchen</option><option>Laundry</option><option>Organisation</option><option>Other</option>
+            </select>
+          </div>
+          <div class="panel full-panel">
+            <div class="panel-heading"><div><h2 id="choreListTitle">All your tasks</h2><p id="choreCount">Your home checklist</p></div><button class="subtle-button" id="clearCompleted">Clear completed</button></div>
+            <div id="fullTaskList" class="task-list"></div>
+            <div id="fullEmpty" class="empty-state hidden"><span>✧</span><h3>Nothing on the list</h3><p>Enjoy the breathing room or add another chore.</p></div>
+          </div>
+        </section>
+
+        <section class="page" id="page-planner">
+          <div class="page-title-row"><div><div class="eyebrow">PLAN WITH PURPOSE</div><h1>Your weekly planner</h1><p class="intro">Give each day a little structure and a lot of breathing room.</p></div><button class="primary-button" id="plannerAdd">＋ Plan a chore</button></div>
+          <div class="week-grid" id="weekGrid"></div>
+          <div class="panel full-panel">
+            <div class="panel-heading"><div><h2>Scheduled tasks</h2><p>Tasks grouped by the day you choose.</p></div></div>
+            <div id="scheduledTasks" class="task-list"></div>
+          </div>
+        </section>
+
+        <section class="page" id="page-shopping">
+          <div class="page-title-row"><div><div class="eyebrow">A WELL-STOCKED HOME</div><h1>Shopping list</h1><p class="intro">Keep track of the little things your home needs.</p></div></div>
+          <form id="shoppingForm" class="add-shopping-form">
+            <input id="shoppingInput" type="text" placeholder="Add an item, e.g. detergent..." maxlength="100" required>
+            <button class="primary-button" type="submit">＋ Add item</button>
+          </form>
+          <div class="panel full-panel"><div class="panel-heading"><div><h2>Things to pick up</h2><p id="shoppingCount">Your shopping essentials.</p></div><button class="subtle-button" id="clearBought">Clear purchased</button></div><div id="shoppingList" class="task-list"></div><div id="shoppingEmpty" class="empty-state"><span>🛍</span><h3>Your list is ready</h3><p>Add groceries, cleaning supplies or household essentials.</p></div></div>
+        </section>
+
+        <section class="page" id="page-settings">
+          <div class="page-title-row"><div><div class="eyebrow">MAKE IT YOURS</div><h1>Settings</h1><p class="intro">Set up HomeEase to fit your home and your routines.</p></div></div>
+          <div class="panel settings-panel">
+            <div class="setting-row"><div><h3>Display name</h3><p>Choose the name shown on your dashboard.</p></div><div class="setting-control"><input id="nameSetting" type="text" maxlength="35" placeholder="Home Manager"><button class="secondary-button" id="saveName">Save</button></div></div>
+            <div class="setting-row"><div><h3>Appearance</h3><p>Switch between light and dark mode.</p></div><button class="secondary-button" id="settingsTheme">Toggle theme</button></div>
+            <div class="setting-row"><div><h3>Start with a sample checklist</h3><p>Restore the default household chores if you need a fresh start.</p></div><button class="secondary-button" id="restoreDefaults">Restore chores</button></div>
+            <div class="setting-row"><div><h3>Your data</h3><p>Your tasks and preferences are stored in this browser.</p></div><button class="secondary-button danger-button" id="resetAll">Reset all data</button></div>
+          </div>
+          
+          <div class="settings-note"><span>✦</span><p><strong>Your home, your privacy.</strong><br>HomeEase stores your checklist locally in your browser. This starter website does not upload your tasks to a server.</p></div>
+
+        <footer class="footer"><span>⌂ <strong>homeease</strong> — A little more harmony, every day.</span><span>MADE FOR THE PLACE YOU LOVE.</span></footer>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop hidden" id="taskModal">
+    <form class="modal" id="taskForm">
+      <div class="modal-header"><div><div class="eyebrow">MAKE YOUR HOME HAPPEN</div><h2 id="modalTitle">Add a new chore</h2></div><button type="button" class="icon-button" id="closeModal" aria-label="Close">✕</button></div>
+      <label for="taskName">Task name</label>
+      <input id="taskName" type="text" placeholder="e.g. Sweep the living room" maxlength="100" required>
+      <label for="taskCategory">Category</label>
+      <select id="taskCategory"><option>Cleaning</option><option>Kitchen</option><option>Laundry</option><option>Organisation</option><option>Other</option></select>
+      <div class="form-row"><div><label for="taskDay">Day</label><select id="taskDay"><option value="0">Sunday</option><option value="1">Monday</option><option value="2">Tuesday</option><option value="3">Wednesday</option><option value="4">Thursday</option><option value="5">Friday</option><option value="6">Saturday</option></select></div><div><label for="taskTime">Time (optional)</label><input id="taskTime" type="time"></div></div>
+      <label for="taskNotes">Notes (optional)</label>
+      <textarea id="taskNotes" rows="3" maxlength="300" placeholder="Any helpful details..."></textarea>
+      <div class="modal-actions"><button type="button" class="secondary-button" id="cancelModal">Cancel</button><button type="submit" class="primary-button">Save chore</button></div>
+    </form>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="script.js"></script>
+</body>
+</html>
